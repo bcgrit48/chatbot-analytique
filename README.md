@@ -21,17 +21,13 @@ Un chatbot qui répond en langage naturel à des questions sur des données de v
 
 ## Architecture
 
-┌─────────────┐ HTTP ┌─────────────┐
-│ Next.js │ ───────────────▶│ FastAPI │
-│ (frontend) │◀─────────────── │ (backend) │
-└─────────────┘ └──────┬──────┘
-│
-┌──────────────────┼──────────────────┐
-▼ ▼ ▼
-┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-│ PostgreSQL │ │ MongoDB │ │ Groq API │
-│ (ventes) │ │ (logs) │ │ (LLM) │
-└─────────────┘ └─────────────┘ └─────────────┘
+```mermaid
+graph TD
+    A[Next.js<br/>Frontend] -->|HTTP| B[FastAPI<br/>Backend]
+    B --> C[(PostgreSQL<br/>Ventes)]
+    B --> D[(MongoDB<br/>Logs)]
+    B --> E[Groq API<br/>LLM]
+```
 
 
 **Flux d'une requête :**
@@ -129,24 +125,25 @@ npm run dev
 
 ## Structure du projet
 
+```
 chatbot-analytique/
 ├── backend/
-│ ├── app/
-│ │ ├── core/ # Configuration, logging
-│ │ ├── db/ # Connexions PostgreSQL/MongoDB
-│ │ ├── models/ # Modèles ORM et Pydantic
-│ │ ├── schemas/ # Contrats d'API
-│ │ ├── api/ # Routes HTTP
-│ │ └── services/ # Logique métier
-│ ├── scripts/ # Scripts utilitaires (chargement des données)
-│ └── tests/
+│   ├── app/
+│   │   ├── core/       # Configuration, logging
+│   │   ├── db/         # Connexions PostgreSQL/MongoDB
+│   │   ├── models/     # Modèles ORM et Pydantic
+│   │   ├── schemas/    # Contrats d'API
+│   │   ├── api/        # Routes HTTP
+│   │   └── services/   # Logique métier
+│   ├── scripts/        # Scripts utilitaires (chargement des données)
+│   └── tests/
 ├── frontend/
-│ ├── app/ # Routing Next.js
-│ ├── components/ # Composants React
-│ ├── services/ # Appels API
-│ └── types/ # Types TypeScript
+│   ├── app/             # Routing Next.js
+│   ├── components/      # Composants React
+│   ├── services/        # Appels API
+│   └── types/           # Types TypeScript
 └── docker-compose.yml
-
+```
 
 ## Limites connues (V1) — pistes d'amélioration pour une V2
 
